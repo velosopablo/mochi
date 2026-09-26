@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Primario: violeta azulado, tranquilo y confiable. */
+  --color-brand-50: #f5f4ff;
+  --color-brand-100: #ecebfe;
+  --color-brand-200: #dbd8fe;
+  --color-brand-300: #bfb8fc;
+  --color-brand-400: #9d90f8;
+  --color-brand-500: #7d69f1;
+  --color-brand-600: #6a4fe5;
+  --color-brand-700: #5a3fca;
+  --color-brand-800: #4a35a3;
+  --color-brand-900: #3d2f81;
+  --color-brand-950: #1f1747;
+
+  /* Acento cálido, usado con moderación. */
+  --color-warm-50: #fff7f0;
+  --color-warm-100: #ffecdc;
+  --color-warm-300: #fdb98a;
+  --color-warm-500: #f28a4b;
+  --color-warm-600: #dd6e2e;
+  --color-warm-700: #a8480f;
+
+  /* Texto y superficies. */
+  --color-ink: #17152b;
+  --color-ink-soft: #4b4863;
+  --color-ink-muted: #6e6b85;
+  --color-surface: #ffffff;
+  --color-canvas: #fbfaff;
+  --color-line: #ebe9f3;
+
+  --shadow-soft: 0 1px 2px rgb(23 21 43 / 0.04), 0 4px 16px -4px rgb(23 21 43 / 0.06);
+  --shadow-lift: 0 1px 2px rgb(23 21 43 / 0.04), 0 12px 40px -12px rgb(61 47 129 / 0.18);
+
+  --animate-float: float 7s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+/* Compensa la navbar sticky al navegar por anclas. */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+::selection {
+  background: var(--color-brand-200);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
