@@ -7,7 +7,7 @@ const items: Array<{ icon: LucideIcon; title: string; text: string }> = [
   { icon: Search, title: "Menos tiempo buscando", text: "Preguntás y Mochi te responde, sin revisar cada lugar por separado." },
   { icon: ListChecks, title: "Prioridades claras", text: "Qué necesita atención hoy, qué puede esperar y qué vence pronto." },
   { icon: BellRing, title: "Recordatorios a tiempo", text: "Con lo que hay que hacer, para qué hijo y para cuándo." },
-  { icon: Heart, title: "Menos carga mental", text: "Más tiempo para acompañar y menos para perseguir pendientes." },
+  { icon: Heart, title: "Menos carga mental", text: "Más tiempo para acompañar y menos para estar pendiente de todo." },
 ];
 
 const journey: Array<{ step: string; title: string; text: string }> = [
@@ -26,7 +26,7 @@ export function ForFamilies() {
               id="familias-title"
               align="responsive"
               eyebrow="Para familias"
-              title="Acompañar sin perseguir."
+              title="Más claridad para acompañar mejor."
               description="Pensado para madres y padres de chicos de 9 a 14 años, una etapa en la que la vida escolar suma materias, actividades y responsabilidades."
             />
             <Mascot pose="abrazo" sizes="240px" className="mx-auto mt-8 w-44 lg:mx-0 lg:w-56" />
