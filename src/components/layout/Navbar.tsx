@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { Logo } from "./Logo";
+import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
@@ -39,18 +39,18 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-200",
         scrolled || open
-          ? "border-line bg-white/85 shadow-[0_1px_12px_-6px_rgb(23_21_43/0.12)] backdrop-blur-xl"
-          : "border-transparent bg-white/0",
+          ? "border-line bg-white/90 shadow-[0_1px_12px_-6px_rgb(61_74_99/0.15)] backdrop-blur-xl"
+          : "border-transparent bg-white",
       )}
     >
-      <Container className="flex h-16 items-center justify-between gap-4">
+      <Container className="flex h-18 items-center justify-between gap-4">
         <Link
           href={routes.home}
           onClick={close}
-          className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+          className="rounded-lg focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-primary"
           aria-label="Mochi, ir al inicio"
         >
-          <Logo />
+          <Logo priority />
         </Link>
 
         <nav aria-label="Principal" className="hidden lg:block">
@@ -59,7 +59,7 @@ export function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="rounded-full px-3 py-2 text-[15px] font-medium text-ink-soft transition-colors hover:bg-brand-50 hover:text-ink focus-visible:outline-2 focus-visible:outline-brand-600"
+                  className="rounded-xl px-3 py-2.5 text-[15px] font-bold text-ink transition-colors hover:bg-primary-50 hover:text-deep focus-visible:outline-3 focus-visible:outline-primary"
                 >
                   {link.label}
                 </Link>
@@ -69,12 +69,12 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ButtonLink href={anchors.earlyAccess} size="sm" className="max-[379px]:hidden" onClick={close}>
+          <ButtonLink href={anchors.earlyAccess} size="md" className="max-[379px]:hidden" onClick={close}>
             {PRIMARY_CTA}
           </ButtonLink>
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-full text-ink hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-brand-600 lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-xl text-ink hover:bg-primary-50 focus-visible:outline-3 focus-visible:outline-primary lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
@@ -94,7 +94,7 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     onClick={close}
-                    className="block rounded-xl px-3 py-3 text-base font-medium text-ink hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-brand-600"
+                    className="block rounded-xl px-3 py-3 text-base font-bold text-ink hover:bg-primary-50 focus-visible:outline-3 focus-visible:outline-primary"
                   >
                     {link.label}
                   </Link>

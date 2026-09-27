@@ -2,27 +2,25 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "secondary" | "ghost";
-type Size = "sm" | "md" | "lg";
+type Size = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-70";
+  "inline-flex items-center justify-center gap-2 rounded-2xl text-base font-bold transition-colors duration-200 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-70";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-brand-600 text-white shadow-[0_8px_24px_-8px_rgb(106_79_229/0.6)] hover:bg-brand-700",
-  secondary: "border border-line bg-white text-ink hover:border-brand-200 hover:bg-brand-50",
-  ghost: "text-brand-700 hover:bg-brand-50",
+  primary: "bg-primary-strong text-white shadow-[0_10px_24px_-10px_rgb(47_128_237/0.7)] hover:bg-deep",
+  secondary: "border-2 border-primary bg-white text-deep hover:bg-primary-50",
+  ghost: "text-deep hover:bg-primary-50",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm",
-  md: "h-11 px-5 text-[15px]",
-  lg: "h-13 px-7 text-base",
+  md: "h-11 px-5",
+  lg: "h-13 px-7",
 };
 
 export function buttonClasses({
   variant = "primary",
-  size = "md",
+  size = "lg",
   className,
 }: {
   variant?: Variant;

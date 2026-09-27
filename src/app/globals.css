@@ -1,42 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-baloo), var(--font-nunito), ui-rounded, ui-sans-serif, system-ui, sans-serif;
 
-  /* Primario: violeta azulado, tranquilo y confiable. */
-  --color-brand-50: #f5f4ff;
-  --color-brand-100: #ecebfe;
-  --color-brand-200: #dbd8fe;
-  --color-brand-300: #bfb8fc;
-  --color-brand-400: #9d90f8;
-  --color-brand-500: #7d69f1;
-  --color-brand-600: #6a4fe5;
-  --color-brand-700: #5a3fca;
-  --color-brand-800: #4a35a3;
-  --color-brand-900: #3d2f81;
-  --color-brand-950: #1f1747;
+  /* Paleta oficial de Mochi. */
+  --color-primary: #2f80ed;
+  /* Variante apenas más oscura para rellenos con texto blanco (contraste AA 4.6:1). */
+  --color-primary-strong: #2a73d9;
+  --color-deep: #1e5bb8;
+  --color-mint: #5fd3c6;
+  --color-yellow: #f6c247;
+  --color-coral: #ff7b6b;
+  --color-lavender: #dcdcf6;
+  --color-ink: #3d4a63;
+  --color-ink-muted: #5b6780;
+  --color-bg: #f8fafd;
+  --color-white: #ffffff;
 
-  /* Acento cálido, usado con moderación. */
-  --color-warm-50: #fff7f0;
-  --color-warm-100: #ffecdc;
-  --color-warm-300: #fdb98a;
-  --color-warm-500: #f28a4b;
-  --color-warm-600: #dd6e2e;
-  --color-warm-700: #a8480f;
+  /* Tintes suaves para fondos y acentos (nunca como color de texto). */
+  --color-primary-50: #eef5fe;
+  --color-primary-100: #dcebfd;
+  --color-mint-50: #e8f8f6;
+  --color-yellow-50: #fef6e0;
+  --color-coral-50: #ffefec;
 
-  /* Texto y superficies. */
-  --color-ink: #17152b;
-  --color-ink-soft: #4b4863;
-  --color-ink-muted: #6e6b85;
-  --color-surface: #ffffff;
-  --color-canvas: #fbfaff;
-  --color-line: #ebe9f3;
+  /* Bordes. */
+  --color-line: #edf1f7;
+  --color-field: #dde4ee;
 
-  --shadow-soft: 0 1px 2px rgb(23 21 43 / 0.04), 0 4px 16px -4px rgb(23 21 43 / 0.06);
-  --shadow-lift: 0 1px 2px rgb(23 21 43 / 0.04), 0 12px 40px -12px rgb(61 47 129 / 0.18);
+  /* Mensajería. */
+  --color-chat-bg: #eaf1fb;
+  --color-bubble-out: #d9eafe;
 
-  --animate-float: float 7s ease-in-out infinite;
+  --shadow-soft: 0 1px 2px rgb(61 74 99 / 0.04), 0 6px 20px -8px rgb(61 74 99 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(61 74 99 / 0.04), 0 18px 48px -18px rgb(30 91 184 / 0.28);
+
+  --animate-float: float 6s ease-in-out infinite;
 
   @keyframes float {
     0%,
@@ -44,40 +44,91 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-6px);
+      transform: translateY(-8px);
     }
   }
 }
 
-:root {
-  color-scheme: light;
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* Compensa la navbar sticky al navegar por anclas. */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  ::selection {
+    background: var(--color-primary-100);
+    color: var(--color-ink);
+  }
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
+@layer components {
+  /* Escala tipográfica oficial (mobile → desktop). */
+  .type-h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .type-h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1.15;
+  }
+  .type-h3 {
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  .type-h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  @media (width >= 1024px) {
+    .type-h1 {
+      font-size: 48px;
+    }
+    .type-h2 {
+      font-size: 36px;
+    }
+    .type-h3 {
+      font-size: 28px;
+    }
+    .type-h4 {
+      font-size: 22px;
+    }
+  }
+
+  /* Fondo de chat con un patrón muy sutil, como en las apps de mensajería. */
+  .chat-wallpaper {
+    background-color: var(--color-chat-bg);
+    background-image: radial-gradient(rgb(47 128 237 / 0.07) 1.2px, transparent 1.2px);
+    background-size: 18px 18px;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
-}
-
-body {
-  background: var(--color-surface);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  text-rendering: optimizeLegibility;
-}
-
-/* Compensa la navbar sticky al navegar por anclas. */
-[id] {
-  scroll-margin-top: 5.5rem;
-}
-
-::selection {
-  background: var(--color-brand-200);
-  color: var(--color-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {

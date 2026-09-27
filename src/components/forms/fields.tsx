@@ -7,10 +7,10 @@ import { cn } from "@/lib/cn";
 import type { FormStatus } from "@/lib/forms/types";
 
 const inputBase =
-  "block w-full rounded-xl border bg-white px-4 text-base text-ink placeholder:text-ink-muted/70 transition-colors focus:border-brand-500 focus:ring-4 focus:ring-brand-100 focus:outline-none";
+  "block w-full rounded-[14px] border bg-white px-4 text-base text-ink placeholder:text-ink-muted/80 transition-colors focus:border-primary focus:ring-4 focus:ring-primary-100 focus:outline-none";
 
 function stateClass(error?: string) {
-  return error ? "border-rose-400" : "border-line hover:border-brand-200";
+  return error ? "border-rose-500" : "border-field hover:border-primary/60";
 }
 
 function describedBy(...ids: Array<string | false | undefined>) {
@@ -30,7 +30,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 function Label({ htmlFor, children, optional }: { htmlFor: string; children: React.ReactNode; optional?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-[15px] font-semibold text-ink">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-[15px] font-bold text-ink">
       {children}
       {optional && <span className="ml-1.5 text-sm font-normal text-ink-muted">(opcional)</span>}
     </label>
@@ -57,7 +57,7 @@ export function TextField({ label, name, error, optional, className, ...rest }: 
         name={name}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy(error && errorId)}
-        className={cn(inputBase, "h-12", stateClass(error))}
+        className={cn(inputBase, "h-13", stateClass(error))}
         {...rest}
       />
       <FieldError id={errorId} message={error} />
@@ -116,7 +116,7 @@ export function CheckboxGroup({
   const hintId = `${id}-hint`;
   return (
     <fieldset aria-describedby={describedBy(hint && hintId, error && errorId)}>
-      <legend className="text-[15px] font-semibold text-ink">{legend}</legend>
+      <legend className="text-[15px] font-bold text-ink">{legend}</legend>
       {hint && (
         <p id={hintId} className="mt-0.5 text-sm text-ink-muted">
           {hint}
@@ -127,9 +127,9 @@ export function CheckboxGroup({
           <label
             key={opt.value}
             className={cn(
-              "group relative flex cursor-pointer items-center gap-3 border bg-white text-[15px] text-ink transition-colors hover:border-brand-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand-100",
-              variant === "chips" ? "rounded-full px-4 py-2 font-medium" : "rounded-xl px-4 py-3",
-              error ? "border-rose-300" : "border-line",
+              "group relative flex cursor-pointer items-center gap-2 border bg-white text-[15px] text-ink transition-colors hover:border-primary/60 has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-primary-100",
+              variant === "chips" ? "min-h-11 rounded-2xl px-4 py-2 font-bold" : "min-h-12 rounded-[14px] px-4 py-3",
+              error ? "border-rose-400" : "border-field",
             )}
           >
             <input
@@ -140,7 +140,11 @@ export function CheckboxGroup({
               className="sr-only"
               onChange={(e) => onToggle?.(opt.value, e.target.checked)}
             />
-            {variant === "list" && <CheckIndicator />}
+            {variant === "list" ? (
+              <CheckIndicator />
+            ) : (
+              <Check className="hidden size-4 text-deep group-has-[:checked]:block" strokeWidth={3} aria-hidden="true" />
+            )}
             <span>{opt.label}</span>
           </label>
         ))}
@@ -150,11 +154,47 @@ export function CheckboxGroup({
   );
 }
 
+export function RadioChips({
+  legend,
+  hint,
+  name,
+  options,
+}: {
+  legend: string;
+  hint?: string;
+  name: string;
+  options: ReadonlyArray<{ value: string; label: string }>;
+}) {
+  const id = useId();
+  return (
+    <fieldset aria-describedby={hint ? `${id}-hint` : undefined}>
+      <legend className="text-[15px] font-bold text-ink">{legend}</legend>
+      {hint && (
+        <p id={`${id}-hint`} className="mt-0.5 text-sm text-ink-muted">
+          {hint}
+        </p>
+      )}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {options.map((opt) => (
+          <label
+            key={opt.value}
+            className="group flex min-h-11 cursor-pointer items-center gap-1.5 rounded-2xl border border-field bg-white px-4 py-2 text-[15px] font-bold text-ink transition-colors hover:border-primary/60 has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-primary-100"
+          >
+            <input type="radio" name={name} value={opt.value} className="sr-only" />
+            <Check className="hidden size-4 text-deep group-has-[:checked]:block" strokeWidth={3} aria-hidden="true" />
+            {opt.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function CheckIndicator() {
   return (
     <span
       aria-hidden="true"
-      className="grid size-5 shrink-0 place-items-center rounded-md border border-slate-300 bg-white text-transparent transition-colors group-has-[:checked]:border-brand-600 group-has-[:checked]:bg-brand-600 group-has-[:checked]:text-white"
+      className="grid size-5 shrink-0 place-items-center rounded-md border-2 border-field bg-white text-transparent transition-colors group-has-[:checked]:border-primary-strong group-has-[:checked]:bg-primary-strong group-has-[:checked]:text-white"
     >
       <Check className="size-3.5" strokeWidth={3} />
     </span>
@@ -173,13 +213,13 @@ export function CheckboxField({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="group flex cursor-pointer items-start gap-3 rounded-xl border border-line bg-white p-4 transition-colors hover:border-brand-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-brand-100">
+    <label className="group flex cursor-pointer items-start gap-3 rounded-[14px] border border-field bg-white p-4 transition-colors hover:border-primary/60 has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-primary-100">
       <input type="checkbox" name={name} defaultChecked={defaultChecked} className="sr-only" />
       <span className="mt-0.5">
         <CheckIndicator />
       </span>
       <span>
-        <span className="block text-[15px] font-semibold text-ink">{label}</span>
+        <span className="block text-[15px] font-bold text-ink">{label}</span>
         {description && <span className="mt-0.5 block text-sm text-ink-muted">{description}</span>}
       </span>
     </label>
@@ -201,7 +241,7 @@ export function Honeypot() {
 export function SubmitButton({ status, children }: { status: FormStatus; children: React.ReactNode }) {
   const loading = status === "loading";
   return (
-    <button type="submit" disabled={loading} aria-disabled={loading} className={buttonClasses({ size: "lg", className: "w-full" })}>
+    <button type="submit" disabled={loading} aria-disabled={loading} className={buttonClasses({ className: "w-full" })}>
       {loading ? (
         <>
           <Loader2 className="size-5 animate-spin" aria-hidden="true" />
@@ -218,7 +258,7 @@ export function FormErrorAlert({ message }: { message: string | null }) {
   return (
     <div role="alert" aria-live="assertive">
       {message && (
-        <p className="flex gap-2 rounded-xl border border-rose-200 bg-rose-50 p-4 text-[15px] text-rose-800">
+        <p className="flex gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-[15px] text-rose-800">
           <AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
           {message}
         </p>

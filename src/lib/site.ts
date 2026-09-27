@@ -1,37 +1,39 @@
 export const siteConfig = {
   name: "Mochi",
-  title: "Mochi | Menos tiempo buscando. Más tiempo acompañando.",
+  title: "Mochi | Todo lo importante de la escuela, en un solo lugar",
   description:
-    "Mochi organiza tareas, evaluaciones, autorizaciones, comunicaciones y eventos escolares para ayudarte a saber qué necesita atención y cuándo.",
-  tagline: "Organizar hoy. Aprender a organizarse mañana.",
+    "Mochi organiza mensajes, tareas, eventos y recordatorios de la escuela y te acompaña directamente por WhatsApp o Telegram.",
+  tagline: "Todo lo importante de la escuela, en un solo lugar.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   locale: "es_AR",
 } as const;
 
-/** CTA principal. Se usa siempre el mismo texto en toda la web. */
-export const PRIMARY_CTA = "Quiero probar Mochi";
+/** CTA principal. Siempre el mismo texto; el cierre usa su variante "Quiero conocer Mochi". */
+export const PRIMARY_CTA = "Conocer Mochi";
+export const FINAL_CTA = "Quiero conocer Mochi";
 export const SECONDARY_CTA = "Ver cómo funciona";
 
 /** Anclas de la home. Con prefijo "/" para que funcionen también desde /contacto. */
 export const anchors = {
   howItWorks: "/#como-funciona",
-  scenarios: "/#situaciones",
-  family: "/#para-tu-familia",
+  examples: "/#ejemplos",
+  families: "/#familias",
+  schools: "/#escuelas",
   privacy: "/#privacidad",
-  earlyAccess: "/#probar",
+  earlyAccess: "/#conocer",
 } as const;
 
 export const routes = {
   home: "/",
   contact: "/contacto",
-  contactSchools: "/contacto?tipo=colegio",
+  contactSchools: "/contacto?tipo=escuela",
 } as const;
 
 export const navLinks = [
   { label: "Cómo funciona", href: anchors.howItWorks },
-  { label: "Situaciones reales", href: anchors.scenarios },
-  { label: "Para tu familia", href: anchors.family },
-  { label: "Privacidad", href: anchors.privacy },
+  { label: "Ejemplos", href: anchors.examples },
+  { label: "Para familias", href: anchors.families },
+  { label: "Para escuelas", href: anchors.schools },
   { label: "Contacto", href: routes.contact },
 ] as const;
 
@@ -40,5 +42,5 @@ export const footerLinks = [
   { label: "Cómo funciona", href: anchors.howItWorks },
   { label: "Privacidad", href: anchors.privacy },
   { label: "Contacto", href: routes.contact },
-  { label: "Para colegios", href: routes.contactSchools },
+  { label: "Para escuelas", href: routes.contactSchools },
 ] as const;

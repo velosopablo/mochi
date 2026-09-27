@@ -11,3 +11,10 @@ export const painPoints = [
   { value: "otro", label: "Otro." },
 ] as const;
 export type PainPoint = (typeof painPoints)[number]["value"];
+
+export const channels = [
+  { value: "whatsapp", label: "WhatsApp" },
+  { value: "telegram", label: "Telegram" },
+  { value: "cualquiera", label: "Me da igual" },
+] as const;
+export type Channel = (typeof channels)[number]["value"];

@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
+const baloo = Baloo_2({ variable: "--font-baloo", subsets: ["latin"], weight: ["700", "800"], display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#2f80ed",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -43,12 +43,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${jakarta.variable} antialiased`}
+      className={`${nunito.variable} ${baloo.variable} antialiased`}
     >
       <body className="flex min-h-dvh flex-col">
         <a
           href="#contenido"
-          className="sr-only z-[60] rounded-full bg-brand-600 px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          className="sr-only z-[60] rounded-xl bg-primary-strong px-4 py-3 font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
         >
           Saltar al contenido
         </a>

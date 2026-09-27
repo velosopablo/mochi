@@ -4,7 +4,7 @@ export function Eyebrow({ children, className }: { children: React.ReactNode; cl
   return (
     <p
       className={cn(
-        "inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-[13px] font-semibold text-brand-700 ring-1 ring-brand-100",
+        "inline-flex items-center gap-2 rounded-full bg-primary-50 px-3.5 py-1 text-sm font-extrabold text-deep",
         className,
       )}
     >
@@ -25,27 +25,47 @@ export function SectionHeading({
   eyebrow?: string;
   title: React.ReactNode;
   description?: React.ReactNode;
-  align?: "center" | "left";
+  /** "responsive": centrado en mobile y a la izquierda en desktop. */
+  align?: "center" | "left" | "responsive";
   className?: string;
 }) {
+  const alignment = {
+    center: "mx-auto text-center",
+    left: "text-left",
+    responsive: "mx-auto text-center lg:mx-0 lg:text-left",
+  }[align];
   return (
-    <div
-      className={cn(
-        "max-w-2xl",
-        align === "center" ? "mx-auto text-center" : "text-left",
-        className,
-      )}
-    >
+    <div className={cn("max-w-2xl", alignment, className)}>
       {eyebrow && <Eyebrow className="mb-4">{eyebrow}</Eyebrow>}
-      <h2
-        id={id}
-        className="font-display text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]"
-      >
+      <h2 id={id} className="type-h2 text-balance text-ink">
         {title}
       </h2>
-      {description && (
-        <p className="mt-4 text-lg leading-relaxed text-pretty text-ink-soft">{description}</p>
-      )}
+      {description && <p className="mt-4 text-lg text-pretty text-ink-muted">{description}</p>}
     </div>
+  );
+}
+
+/** Sección con el espaciado vertical oficial (64–96px). */
+export function Section({
+  id,
+  labelledBy,
+  tone = "white",
+  className,
+  children,
+}: {
+  id?: string;
+  labelledBy: string;
+  tone?: "white" | "bg";
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      aria-labelledby={labelledBy}
+      className={cn("py-16 sm:py-20 lg:py-24", tone === "white" ? "bg-white" : "bg-bg", className)}
+    >
+      {children}
+    </section>
   );
 }

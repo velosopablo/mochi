@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Mascot } from "@/components/brand/Mascot";
+import { Bubble, ChatWindow } from "@/components/chat/Chat";
 import { ContactForm, type Audience } from "@/components/forms/ContactForm";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
@@ -9,47 +11,45 @@ import { anchors, PRIMARY_CTA } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Escribinos si sos una familia interesada en Mochi o si representás a un colegio que quiere explorarlo.",
+    "Escribinos si sos una familia interesada en Mochi o si representás a una escuela que quiere explorarlo.",
   alternates: { canonical: "/contacto" },
   openGraph: { url: "/contacto" },
 };
 
 export default async function ContactPage({ searchParams }: PageProps<"/contacto">) {
   const { tipo } = await searchParams;
-  const initialAudience: Audience = tipo === "colegio" ? "colegio" : "familia";
+  const initialAudience: Audience = tipo === "escuela" ? "escuela" : "familia";
 
   return (
-    <section aria-labelledby="contacto-title" className="relative overflow-hidden">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(50%_40%_at_80%_0%,rgb(219_216_254/0.7),transparent_70%)]"
-      />
-      <Container className="grid gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+    <section aria-labelledby="contacto-title" className="relative overflow-hidden bg-white">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <span className="absolute -top-24 right-[-8rem] size-[26rem] rounded-full bg-primary-50" />
+        <span className="absolute bottom-[-6rem] left-[-6rem] size-72 rounded-full bg-mint-50" />
+      </div>
+      <Container className="relative grid gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1.3fr] lg:gap-16 lg:py-20">
         <div>
           <Eyebrow>Contacto</Eyebrow>
-          <h1
-            id="contacto-title"
-            className="mt-5 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl"
-          >
+          <h1 id="contacto-title" className="type-h1 mt-5 text-ink">
             Hablemos.
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-ink-soft">
-            Si tenés dudas, ideas o querés contarnos cómo se organizan en casa, nos encantaría
-            leerte.
+          <p className="mt-4 text-lg text-ink-muted">
+            Si tenés dudas, ideas o querés contarnos cómo se organizan en casa, nos encantaría leerte.
           </p>
 
-          <div className="mt-10 rounded-2xl border border-brand-100 bg-brand-50 p-5">
-            <p className="font-semibold text-ink">¿Querés probar Mochi?</p>
-            <p className="mt-1 text-[15px] text-ink-soft">
-              La forma más rápida es anotarte al piloto para familias.
-            </p>
-            <Link
-              href={anchors.earlyAccess}
-              className="mt-3 inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:text-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            >
-              {PRIMARY_CTA} <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
+          <div className="mt-8 flex items-end gap-3">
+            <Mascot pose="feliz" sizes="140px" className="w-24 shrink-0 sm:w-32" decorative />
+            <ChatWindow label="Mochi te cuenta cómo sumarte al piloto." composer={false} className="flex-1" bodyClassName="py-3">
+              <Bubble from="mochi">
+                <p>¿Querés probarme? 😊 La forma más rápida es sumarte al piloto para familias.</p>
+              </Bubble>
+            </ChatWindow>
           </div>
+          <Link
+            href={anchors.earlyAccess}
+            className="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-xl px-1 font-bold text-deep hover:underline focus-visible:outline-3 focus-visible:outline-primary"
+          >
+            {PRIMARY_CTA} <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
         </div>
 
         <div className="rounded-3xl border border-line bg-white p-5 shadow-lift sm:p-8">

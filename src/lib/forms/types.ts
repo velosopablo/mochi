@@ -1,4 +1,4 @@
-import type { ChildAgeRange, PainPoint } from "./options";
+import type { Channel, ChildAgeRange, PainPoint } from "./options";
 
 export type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -13,6 +13,8 @@ export interface EarlyAccessPayload {
   painPoints: PainPoint[];
   painPointOther: string;
   biggestStruggle: string;
+  /** Por dónde prefiere conversar con Mochi. Vacío si no respondió. */
+  preferredChannel: Channel | "";
   pilotInterest: boolean;
 }
 
@@ -26,7 +28,7 @@ export interface FamilyContactPayload {
 }
 
 export interface SchoolContactPayload {
-  type: "colegio";
+  type: "escuela";
   institution: string;
   name: string;
   role: string;

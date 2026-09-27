@@ -26,7 +26,7 @@ export function SchoolContactForm() {
     const fd = new FormData(form);
     await run(
       {
-        type: "colegio",
+        type: "escuela",
         institution: readString(fd, "institution"),
         name: readString(fd, "name"),
         role: readString(fd, "role"),

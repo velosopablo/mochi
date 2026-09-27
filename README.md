@@ -3,12 +3,15 @@
 Landing y página de contacto de Mochi, pensada para validar el producto con padres y madres
 y captar familias para el piloto.
 
+**Idea central:** Mochi vive donde las familias ya conversan. Todo uso del producto se muestra
+como conversación de WhatsApp / Telegram, nunca como dashboard.
+
 ## Stack
 
 - Next.js 16 (App Router) + React 19 + TypeScript
 - Tailwind CSS v4 (tokens de diseño en `src/app/globals.css`)
-- `lucide-react` para íconos
-- Tipografías: Inter (texto) y Plus Jakarta Sans (títulos) vía `next/font`
+- `lucide-react` para íconos (una sola librería)
+- Tipografías: Nunito (UI, 400–800) y Baloo 2 (H1/H2) vía `next/font`
 
 ## Ejecutar
 
@@ -29,19 +32,35 @@ src/
   app/
     layout.tsx            Navbar + Footer, fuentes, metadata SEO/OpenGraph
     page.tsx              Home (orden de secciones = narrativa)
-    contacto/page.tsx     /contacto (?tipo=colegio preselecciona colegios)
-    opengraph-image.tsx   Imagen OG generada
-    icon.svg, robots.ts, sitemap.ts
+    contacto/page.tsx     /contacto (?tipo=escuela preselecciona escuelas)
+    not-found.tsx         404 con la mascota
+    opengraph-image.jpg   Imagen para redes (logo oficial)
+    icon.png, apple-icon.png, robots.ts, sitemap.ts
   components/
-    layout/               Navbar, Footer, Logo
-    home/                 Secciones de la home
-      scenarios/          Visuales de cada situación real
-    forms/                EarlyAccessForm, ContactForm (+ familia / colegio), campos y hook
-    ui/                   Container, ButtonLink, SectionHeading, primitivas de mockups
+    brand/                Logo y Mascot (assets oficiales)
+    chat/                 Conversaciones estilo WhatsApp / Telegram
+    layout/               Navbar, Footer
+    home/                 Secciones de la home (Hero, Problem, Solution, HowItWorks, Benefits,
+                          Conversations, ForFamilies, ForSchools, Privacy, FinalCta)
+    forms/                EarlyAccessForm, ContactForm (+ familia / escuela), campos y hook
+    ui/                   Container, ButtonLink, SectionHeading
   lib/
     site.ts               Textos globales, CTA, anclas y links
     forms/                Tipos, opciones, validación y envío
 ```
+
+## Sistema visual
+
+- Tokens de color, tipografía y escala en `src/app/globals.css` (`--color-primary`, `type-h1`…`type-h4`).
+- Paleta oficial: Primary `#2F80ED`, Deep `#1E5BB8`, Mint, Yellow, Coral, Lavender, Ink `#3D4A63`, Background `#F8FAFD`.
+- Accesibilidad: el blanco sobre `#2F80ED` da 3.9:1 (no alcanza AA para 16px), así que los
+  botones usan `--color-primary-strong` `#2A73D9` (4.6:1). Los links de texto usan Deep Blue.
+- Marca en `public/brand/`: recortes del logo y de las poses de la mascota provistas, sin
+  redibujar. Sólo se quitó el fondo blanco (conectado al borde) para que se integren con los fondos.
+  - `mochi-wordmark.webp` (navbar), `mochi-logo.webp` (footer), `mochi-avatar.webp` (chats)
+  - Poses: `hola`, `feliz`, `ok`, `lee`, `abrazo` → componente `<Mascot pose="…" />`
+- Conversaciones: primitivas en `src/components/chat/Chat.tsx` (`ChatWindow`, `Bubble`,
+  `ChatList`, `FileCard`, `EventCard`, `StatusChip`, `QuickReplies`, `PhoneFrame`).
 
 ## Formularios
 

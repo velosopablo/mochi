@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { PRIMARY_CTA } from "@/lib/site";
-import { childAgeRanges, painPoints, type ChildAgeRange, type PainPoint } from "@/lib/forms/options";
+import { FINAL_CTA } from "@/lib/site";
+import { channels, childAgeRanges, painPoints, type Channel, type ChildAgeRange, type PainPoint } from "@/lib/forms/options";
 import { submitEarlyAccessForm } from "@/lib/forms/submit";
 import type { EarlyAccessPayload } from "@/lib/forms/types";
 import { validateEarlyAccess } from "@/lib/forms/validation";
@@ -11,6 +11,7 @@ import {
   CheckboxGroup,
   FormErrorAlert,
   Honeypot,
+  RadioChips,
   SubmitButton,
   TextAreaField,
   TextField,
@@ -19,6 +20,7 @@ import { SuccessPanel } from "./SuccessPanel";
 import { readAll, readString, useFormSubmission } from "./useFormSubmission";
 
 const ageOptions = childAgeRanges.map((r) => ({ value: r, label: `${r} años` }));
+
 
 export function EarlyAccessForm() {
   const { status, errors, submitError, run, onFormChange } = useFormSubmission<EarlyAccessPayload>(
@@ -39,6 +41,7 @@ export function EarlyAccessForm() {
       painPoints: readAll<PainPoint>(fd, "painPoints"),
       painPointOther: readString(fd, "painPointOther"),
       biggestStruggle: readString(fd, "biggestStruggle"),
+      preferredChannel: readString(fd, "preferredChannel") as Channel | "",
       pilotInterest: fd.get("pilotInterest") === "on",
     };
     setSubmitted({ name: data.name, email: data.email });
@@ -48,7 +51,7 @@ export function EarlyAccessForm() {
   if (status === "success") {
     const firstName = submitted?.name.split(" ")[0];
     return (
-      <SuccessPanel title={firstName ? `¡Gracias, ${firstName}!` : "¡Gracias!"}>
+      <SuccessPanel title={firstName ? `¡Listo, ${firstName}!` : "¡Listo!"}>
         <p>
           Recibimos tus respuestas. Te vamos a escribir
           {submitted?.email ? (
@@ -115,6 +118,8 @@ export function EarlyAccessForm() {
         )}
       </div>
 
+      <RadioChips legend="¿Por dónde te gustaría hablar con Mochi?" hint="Opcional." name="preferredChannel" options={channels} />
+
       <TextAreaField
         label="¿Qué es lo que más te cuesta hoy de organizar la vida escolar?"
         name="biggestStruggle"
@@ -133,7 +138,7 @@ export function EarlyAccessForm() {
       <FormErrorAlert message={submitError} />
 
       <div>
-        <SubmitButton status={status}>{PRIMARY_CTA}</SubmitButton>
+        <SubmitButton status={status}>{FINAL_CTA}</SubmitButton>
         <p id="early-access-note" className="mt-3 text-center text-sm text-ink-muted">
           Solo usaremos estos datos para contactarte sobre Mochi y entender mejor el problema.
         </p>
