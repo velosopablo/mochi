@@ -36,7 +36,7 @@ export function Footer() {
         </div>
 
         <p className="mt-10 border-t border-line pt-6 text-sm text-ink-muted">
-          © {year} Mochi. Las conversaciones de esta página son ejemplos con datos ficticios.
+          © {year} Mochi. Mochi está en construcción. Las conversaciones de esta página son ejemplos con nombres y datos ficticios.
         </p>
       </Container>
     </footer>
@@ -49,9 +49,9 @@ function SchoolsNote() {
       <div className="flex items-center gap-4">
         <Mascot pose="lee" decorative className="w-16 shrink-0" sizes="64px" />
         <div>
-          <p className="text-lg font-extrabold text-ink">¿Representás a una escuela?</p>
+          <p className="text-lg font-extrabold text-ink">¿Representás a un colegio?</p>
           <p className="mt-0.5 text-[15px] text-ink-muted">
-            También estamos conversando con instituciones interesadas en explorar Mochi.
+            Mochi está pensado para convivir con las herramientas que familias y colegios ya utilizan.
           </p>
         </div>
       </div>

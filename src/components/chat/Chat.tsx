@@ -180,17 +180,88 @@ export function EventCard({
   );
 }
 
+type Tone = "amber" | "green" | "blue" | "coral";
+
+const chipTones: Record<Tone, string> = {
+  amber: "bg-yellow-50 text-[#7a5600]",
+  green: "bg-mint-50 text-[#1a6b62]",
+  blue: "bg-primary-50 text-deep",
+  coral: "bg-coral-50 text-[#a63526]",
+};
+
+const accentTones: Record<Tone, string> = {
+  amber: "bg-yellow",
+  green: "bg-mint",
+  blue: "bg-primary",
+  coral: "bg-coral",
+};
+
 /** Chip de estado dentro de un mensaje (no depende sólo del color: siempre lleva texto). */
-export function StatusChip({ tone, children }: { tone: "amber" | "green" | "blue"; children: React.ReactNode }) {
-  const tones = {
-    amber: "bg-yellow-50 text-[#7a5600]",
-    green: "bg-mint-50 text-[#1a6b62]",
-    blue: "bg-primary-50 text-deep",
-  };
+export function StatusChip({ tone, children, className }: { tone: Tone; children: React.ReactNode; className?: string }) {
   return (
-    <span className={cn("inline-flex items-center rounded-full px-2 py-0.5 text-xs font-extrabold", tones[tone])}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-extrabold whitespace-nowrap",
+        chipTones[tone],
+        className,
+      )}
+    >
       {children}
     </span>
+  );
+}
+
+/** Tarjeta de acción dentro de un mensaje: materia, qué hay que hacer y cuándo / prioridad. */
+export function TaskCard({
+  subject,
+  detail,
+  status,
+  tone = "blue",
+}: {
+  subject: string;
+  detail: string;
+  status: string;
+  tone?: Tone;
+}) {
+  return (
+    <div className="flex items-stretch gap-2.5 rounded-xl border border-line bg-white p-2.5">
+      <span aria-hidden="true" className={cn("w-1 shrink-0 rounded-full", accentTones[tone])} />
+      <span className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-x-2 gap-y-1">
+        <span className="leading-tight">
+          <span className="block text-sm font-extrabold text-ink">{subject}</span>
+          <span className="block text-[13px] text-ink-muted">{detail}</span>
+        </span>
+        <StatusChip tone={tone}>{status}</StatusChip>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Bloque por hijo/a dentro de una respuesta: separa la información de cada hermano
+ * (familia → hijo → curso → actividad → fecha).
+ */
+export function ChildBlock({
+  name,
+  grade,
+  tone = "blue",
+  items,
+}: {
+  name: string;
+  grade: string;
+  tone?: Tone;
+  items: Array<{ emoji: string; text: React.ReactNode }>;
+}) {
+  return (
+    <div className="rounded-xl border border-line bg-white p-2.5">
+      <p className="flex items-center gap-2 text-xs font-extrabold tracking-wide text-ink uppercase">
+        <span aria-hidden="true" className={cn("size-2.5 rounded-full", accentTones[tone])} />
+        {name} <span className="font-bold text-ink-muted">· {grade}</span>
+      </p>
+      <div className="mt-1.5 text-[14px]">
+        <ChatList items={items} />
+      </div>
+    </div>
   );
 }
 

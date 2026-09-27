@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { School, Users } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { FamilyContactForm } from "./FamilyContactForm";
-import { SchoolContactForm } from "./SchoolContactForm";
+import { FamilyForm } from "./FamilyForm";
+import { SchoolForm } from "./SchoolForm";
 
-export type Audience = "familia" | "escuela";
+export type Audience = "familia" | "colegio";
 
 const audiences: Array<{ value: Audience; label: string; hint: string; icon: typeof Users }> = [
-  { value: "familia", label: "Soy una familia", hint: "Dudas, ideas o el piloto", icon: Users },
-  { value: "escuela", label: "Represento a una escuela", hint: "Explorar Mochi en tu institución", icon: School },
+  { value: "familia", label: "Soy una familia", hint: "Probar Mochi, dudas o ideas", icon: Users },
+  { value: "colegio", label: "Represento a un colegio", hint: "Explorar Mochi con tu comunidad", icon: School },
 ];
 
 export function ContactForm({ initialAudience = "familia" }: { initialAudience?: Audience }) {
@@ -55,7 +55,7 @@ export function ContactForm({ initialAudience = "familia" }: { initialAudience?:
       </fieldset>
 
       <div className="mt-8 border-t border-line pt-8">
-        {audience === "familia" ? <FamilyContactForm /> : <SchoolContactForm />}
+        {audience === "familia" ? <FamilyForm key="familia" /> : <SchoolForm key="colegio" />}
       </div>
     </div>
   );

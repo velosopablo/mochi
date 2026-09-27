@@ -1,6 +1,6 @@
 import { ArrowDown, MessageCircle, Send } from "lucide-react";
 import { Mascot } from "@/components/brand/Mascot";
-import { Bubble, ChatList, ChatWindow, DayDivider, FileCard, PhoneFrame } from "@/components/chat/Chat";
+import { Bubble, ChatList, ChatWindow, DayDivider, PhoneFrame } from "@/components/chat/Chat";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { anchors, PRIMARY_CTA, SECONDARY_CTA } from "@/lib/site";
@@ -12,12 +12,13 @@ export function Hero() {
       <Container className="relative grid items-center gap-12 pt-8 pb-16 sm:pt-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10 lg:pt-16 lg:pb-24">
         <div className="max-w-xl">
           <h1 id="hero-title" className="type-h1 text-balance text-ink">
-            Todo lo importante de la escuela, <span className="text-primary">en un solo lugar.</span>
+            La vida escolar de tu familia, <span className="text-primary">más clara.</span>
           </h1>
           <p className="mt-5 text-lg text-pretty text-ink-muted">
-            Mochi organiza mensajes, tareas, eventos y recordatorios y te acompaña directamente por{" "}
-            <strong className="font-extrabold text-ink">WhatsApp o Telegram</strong>.
+            Mochi comprende información de distintos medios y la transforma en prioridades, recordatorios y
+            acciones claras para tu familia.
           </p>
+          <p className="mt-4 text-lg font-extrabold text-ink">Menos tiempo buscando. Más tiempo acompañando.</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href={anchors.earlyAccess}>{PRIMARY_CTA}</ButtonLink>
@@ -27,14 +28,14 @@ export function Hero() {
             </ButtonLink>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2 text-sm font-bold text-ink" aria-label="Dónde funciona Mochi">
+          <ul className="mt-8 flex flex-wrap gap-2 text-sm font-bold text-ink" aria-label="Cómo te acompaña Mochi">
             <li className="inline-flex items-center gap-1.5 rounded-full bg-mint-50 px-3 py-1.5">
-              <MessageCircle className="size-4 text-[#1a7a6f]" aria-hidden="true" /> Por WhatsApp
+              <MessageCircle className="size-4 text-[#1a7a6f]" aria-hidden="true" /> En tu chat de siempre
             </li>
             <li className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1.5">
-              <Send className="size-4 text-deep" aria-hidden="true" /> O por Telegram
+              <Send className="size-4 text-deep" aria-hidden="true" /> WhatsApp o Telegram
             </li>
-            <li className="inline-flex items-center rounded-full bg-yellow-50 px-3 py-1.5">Sin instalar otra app</li>
+            <li className="inline-flex items-center rounded-full bg-yellow-50 px-3 py-1.5">No es otro lugar para revisar</li>
           </ul>
         </div>
 
@@ -47,29 +48,25 @@ export function Hero() {
           />
           <PhoneFrame className="ml-auto w-[88%] sm:w-[78%] lg:w-[80%]">
             <ChatWindow
-              label="Ejemplo de conversación con Mochi por WhatsApp: qué recordar para mañana."
+              label="Ejemplo de conversación con Mochi: qué tiene Juli mañana."
               className="rounded-none border-0 shadow-none"
               bodyClassName="min-h-[380px]"
             >
               <DayDivider>Hoy</DayDivider>
               <Bubble from="user" time="20:14">
-                ¿Qué tengo que recordar para mañana?
+                ¿Qué tiene Juli mañana?
               </Bubble>
-              <Bubble from="mochi" time="20:14">
+              <Bubble from="mochi" time="20:14" actions={["Recordámelo 7:30", "Ver la semana"]}>
                 <p>
-                  Mañana tenés <strong>3 cosas importantes</strong>:
+                  Juli tiene <strong>3 cosas importantes</strong> mañana:
                 </p>
                 <ChatList
                   items={[
-                    { emoji: "🎒", text: "Llevar materiales de Plástica" },
-                    { emoji: "📚", text: "Entregar tarea de Matemática" },
-                    { emoji: "⚽", text: "Educación Física a las 10:30" },
+                    { emoji: "📚", text: <>Entregar la tarea de <strong>Matemática</strong></> },
+                    { emoji: "📝", text: <>Evaluación de <strong>Ciencias Naturales</strong> a 2.ª hora</> },
+                    { emoji: "✍️", text: <>Autorización de la salida: <strong>vence mañana</strong></> },
                   ]}
                 />
-              </Bubble>
-              <Bubble from="mochi" time="20:14" actions={["Recordámelo 7:30", "Ver la semana"]}>
-                <p>Te dejo la lista de materiales 👇</p>
-                <FileCard name="Materiales Plástica.pdf" meta="PDF · 1 página" />
               </Bubble>
             </ChatWindow>
           </PhoneFrame>

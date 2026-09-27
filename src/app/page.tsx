@@ -10,8 +10,8 @@ import { Problem } from "@/components/home/Problem";
 import { Solution } from "@/components/home/Solution";
 
 /**
- * Narrativa: la información llega por todos lados → Mochi la entiende → te la cuenta por chat
- * → así funciona → lo que hace → ejemplos reales → familias → escuelas → quiero conocer Mochi.
+ * Narrativa: la información está fragmentada → Mochi la transforma en acciones claras → así funciona
+ * → lo que hace → ejemplos (incluidos hermanos) → familias → colegios como socios → privacidad → quiero probar Mochi.
  * Regla visual: si algo puede mostrarse como conversación, se muestra como conversación.
  */
 export default function HomePage() {

@@ -4,7 +4,6 @@ import { useId } from "react";
 import { AlertCircle, Check, Loader2 } from "lucide-react";
 import { buttonClasses } from "@/components/ui/ButtonLink";
 import { cn } from "@/lib/cn";
-import type { FormStatus } from "@/lib/forms/types";
 
 const inputBase =
   "block w-full rounded-[14px] border bg-white px-4 text-base text-ink placeholder:text-ink-muted/80 transition-colors focus:border-primary focus:ring-4 focus:ring-primary-100 focus:outline-none";
@@ -106,7 +105,7 @@ export function CheckboxGroup({
   legend: string;
   hint?: string;
   name: string;
-  options: ReadonlyArray<{ value: string; label: string }>;
+  options: ReadonlyArray<string | { value: string; label: string }>;
   error?: string;
   variant?: "list" | "chips";
   onToggle?: (value: string, checked: boolean) => void;
@@ -123,7 +122,7 @@ export function CheckboxGroup({
         </p>
       )}
       <div className={cn("mt-3", variant === "chips" ? "flex flex-wrap gap-2" : "grid gap-2")}>
-        {options.map((opt, i) => (
+        {options.map(toOption).map((opt, i) => (
           <label
             key={opt.value}
             className={cn(
@@ -163,7 +162,7 @@ export function RadioChips({
   legend: string;
   hint?: string;
   name: string;
-  options: ReadonlyArray<{ value: string; label: string }>;
+  options: ReadonlyArray<string | { value: string; label: string }>;
 }) {
   const id = useId();
   return (
@@ -175,7 +174,7 @@ export function RadioChips({
         </p>
       )}
       <div className="mt-3 flex flex-wrap gap-2">
-        {options.map((opt) => (
+        {options.map(toOption).map((opt) => (
           <label
             key={opt.value}
             className="group flex min-h-11 cursor-pointer items-center gap-1.5 rounded-2xl border border-field bg-white px-4 py-2 text-[15px] font-bold text-ink transition-colors hover:border-primary/60 has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-primary-100"
@@ -187,6 +186,48 @@ export function RadioChips({
         ))}
       </div>
     </fieldset>
+  );
+}
+
+function toOption(opt: string | { value: string; label: string }) {
+  return typeof opt === "string" ? { value: opt, label: opt } : opt;
+}
+
+type SelectProps = Omit<React.ComponentProps<"select">, "id"> & {
+  label: string;
+  name: string;
+  options: ReadonlyArray<string>;
+  placeholder: string;
+  error?: string;
+  optional?: boolean;
+};
+
+export function SelectField({ label, name, options, placeholder, error, optional, className, ...rest }: SelectProps) {
+  const id = useId();
+  const errorId = `${id}-error`;
+  return (
+    <div className={className}>
+      <Label htmlFor={id} optional={optional}>
+        {label}
+      </Label>
+      <select
+        id={id}
+        name={name}
+        defaultValue=""
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(error && errorId)}
+        className={cn(inputBase, "h-13 appearance-auto pr-3", stateClass(error))}
+        {...rest}
+      >
+        <option value="">{placeholder}</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+      <FieldError id={errorId} message={error} />
+    </div>
   );
 }
 
@@ -203,18 +244,21 @@ function CheckIndicator() {
 
 export function CheckboxField({
   name,
+  value,
   label,
   description,
   defaultChecked,
 }: {
   name: string;
+  /** Valor que se envía si está marcado. */
+  value?: string;
   label: string;
   description?: string;
   defaultChecked?: boolean;
 }) {
   return (
     <label className="group flex cursor-pointer items-start gap-3 rounded-[14px] border border-field bg-white p-4 transition-colors hover:border-primary/60 has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-primary-100">
-      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="sr-only" />
+      <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} className="sr-only" />
       <span className="mt-0.5">
         <CheckIndicator />
       </span>
@@ -226,20 +270,23 @@ export function CheckboxField({
   );
 }
 
-/** Campo trampa para bots: invisible para personas y lectores de pantalla. */
+/**
+ * Campo trampa para bots: invisible para personas y lectores de pantalla.
+ * `_gotcha` es el nombre que Formspree reconoce: si llega completo, descarta el envío.
+ */
 export function Honeypot() {
   return (
     <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
       <label>
         No completar
-        <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" />
       </label>
     </div>
   );
 }
 
-export function SubmitButton({ status, children }: { status: FormStatus; children: React.ReactNode }) {
-  const loading = status === "loading";
+export function SubmitButton({ submitting, children }: { submitting: boolean; children: React.ReactNode }) {
+  const loading = submitting;
   return (
     <button type="submit" disabled={loading} aria-disabled={loading} className={buttonClasses({ className: "w-full" })}>
       {loading ? (

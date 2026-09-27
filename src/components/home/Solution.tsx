@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Mascot } from "@/components/brand/Mascot";
-import { Bubble, ChatList, ChatWindow } from "@/components/chat/Chat";
+import { Bubble, ChatWindow, TaskCard } from "@/components/chat/Chat";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/SectionHeading";
 import { sources } from "./sources";
@@ -12,13 +12,13 @@ export function Solution() {
         <SectionHeading
           id="solucion-title"
           eyebrow="La solución"
-          title="Mochi lo entiende todo y te lo cuenta por chat."
-          description="Vos no tenés que aprender a usar otra app. Mochi vive donde tu familia ya conversa: WhatsApp o Telegram."
+          title="Mochi transforma información escolar en acciones claras."
+          description="Trabaja con las fuentes digitales que tu familia ya usa y te cuenta lo importante en la conversación de siempre: WhatsApp o Telegram."
         />
 
         <div className="mt-14 grid items-center gap-6 lg:grid-cols-[1fr_auto_220px_auto_1.2fr]">
-          <ul className="flex flex-wrap justify-center gap-2 lg:flex-col lg:items-end" aria-label="Lo que llega">
-            {sources.slice(0, 5).map(({ icon: Icon, label }) => (
+          <ul className="flex flex-wrap justify-center gap-2 lg:flex-col lg:items-end" aria-label="Fuentes digitales">
+            {sources.map(({ icon: Icon, label }) => (
               <li
                 key={label}
                 className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 text-sm font-bold text-ink shadow-soft"
@@ -33,26 +33,34 @@ export function Solution() {
 
           <div className="mx-auto w-40 text-center lg:w-full">
             <Mascot pose="lee" sizes="220px" className="w-full" />
-            <p className="mt-1 font-extrabold text-ink">Mochi lee y organiza</p>
+            <p className="mt-1 font-extrabold text-ink">Mochi entiende y prioriza</p>
           </div>
 
           <Arrow />
 
-          <ChatWindow label="Ejemplo: Mochi resume lo importante de la semana." composer={false} className="mx-auto w-full max-w-sm">
-            <Bubble from="mochi" time="8:00">
+          <ChatWindow
+            label="Ejemplo: Mochi resume lo importante de la semana para Lucas."
+            composer={false}
+            className="mx-auto w-full max-w-sm"
+          >
+            <Bubble from="user" time="7:58">
+              ¿Qué tiene Lucas esta semana?
+            </Bubble>
+            <Bubble from="mochi" time="7:58">
               <p>
-                ¡Buen día! 👋 Encontré <strong>3 cosas importantes</strong> para esta semana:
+                Encontré <strong>3 cosas importantes para Lucas</strong> durante esta semana.
               </p>
-              <ChatList
-                items={[
-                  { emoji: "📚", text: <>Tarea de Matemática — <strong>jueves</strong></> },
-                  { emoji: "📝", text: "Falta completar una autorización" },
-                  { emoji: "🏫", text: <>Reunión de padres — <strong>viernes 18:30</strong></> },
-                ]}
-              />
+              <TaskCard subject="Matemática" detail="Evaluación — viernes" status="Prioridad alta" tone="coral" />
+              <TaskCard subject="Salida educativa" detail="Autorización pendiente" status="Vence miércoles" tone="amber" />
+              <TaskCard subject="Inglés" detail="Entregar actividad" status="Jueves" tone="blue" />
             </Bubble>
           </ChatWindow>
         </div>
+
+        <p className="mx-auto mt-12 max-w-2xl text-center text-lg font-bold text-pretty text-ink">
+          Mochi no solo reúne información.{" "}
+          <span className="text-deep">Identifica qué significa para tu familia y qué acción requiere.</span>
+        </p>
       </Container>
     </Section>
   );

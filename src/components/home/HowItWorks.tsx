@@ -1,8 +1,10 @@
-import { Bubble, ChatWindow, FileCard } from "@/components/chat/Chat";
+import { MessageCircle, Send } from "lucide-react";
+import { Bubble, ChatWindow, TaskCard } from "@/components/chat/Chat";
 import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/SectionHeading";
+import { sources } from "./sources";
 
-const understands = ["Fechas", "Tareas", "Evaluaciones", "Autorizaciones", "Materiales", "Eventos", "Cambios"];
+const understands = ["Tareas", "Evaluaciones", "Eventos", "Autorizaciones", "Materiales", "Fechas", "Cambios relevantes"];
 
 export function HowItWorks() {
   return (
@@ -11,22 +13,35 @@ export function HowItWorks() {
         <SectionHeading
           id="como-funciona-title"
           eyebrow="Cómo funciona"
-          title="Tres pasos. Cero apps nuevas."
-          description="De información dispersa a mensajes claros, en la conversación que ya usás todos los días."
+          title="De información dispersa a acciones claras."
+          description="Tres pasos que terminan donde tu familia ya conversa: WhatsApp o Telegram."
         />
 
         <ol className="mt-14 grid gap-6 lg:grid-cols-3">
-          <Step n={1} title="Mochi recibe la información" text="Le reenviás lo que llega: mensajes, PDFs, mails o fotos del cuaderno.">
-            <ChatWindow label="Ejemplo: le reenviás un PDF a Mochi." composer={false} className="border-0 shadow-none">
-              <Bubble from="user" time="19:02">
-                <p className="text-xs font-bold text-ink-muted">↪ Reenviado</p>
-                <FileCard name="Circular salida educativa.pdf" meta="PDF · 2 páginas" />
-              </Bubble>
-            </ChatWindow>
+          <Step
+            n={1}
+            title="Mochi se integra a la información actual"
+            text="El mecanismo depende de cada caso: integraciones disponibles, calendarios, correo, documentos u otras fuentes digitales autorizadas."
+          >
+            <ul className="flex flex-wrap gap-2 p-2" aria-label="Fuentes posibles">
+              {sources.map(({ icon: Icon, label }) => (
+                <li
+                  key={label}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-bold text-ink ring-1 ring-line"
+                >
+                  <Icon className="size-4 text-primary" aria-hidden="true" />
+                  {label}
+                </li>
+              ))}
+            </ul>
           </Step>
 
-          <Step n={2} title="La entiende y organiza" text="Detecta qué es cada cosa, cuándo pasa y qué hay que hacer.">
-            <ul className="flex flex-wrap gap-2" aria-label="Mochi identifica">
+          <Step
+            n={2}
+            title="Mochi entiende qué es importante"
+            text="Identifica tareas, evaluaciones, eventos, autorizaciones, materiales, fechas y cambios relevantes."
+          >
+            <ul className="flex flex-wrap gap-2 p-2" aria-label="Mochi identifica">
               {understands.map((c) => (
                 <li key={c} className="rounded-full bg-white px-3 py-1.5 text-sm font-bold text-ink ring-1 ring-line">
                   {c}
@@ -35,19 +50,32 @@ export function HowItWorks() {
             </ul>
           </Step>
 
-          <Step n={3} title="Conversa con vos y te avisa" text="Te escribe cuando algo necesita atención. Y le podés preguntar lo que quieras.">
-            <ChatWindow label="Ejemplo: Mochi avisa que vence una autorización." composer={false} className="border-0 shadow-none">
-              <Bubble from="mochi" time="19:03" actions={["Ya la completé ✅", "¿Cómo la completo?"]}>
-                <p>
-                  📝 Te aviso: la autorización de la salida educativa <strong>vence mañana</strong>.
-                </p>
+          <Step
+            n={3}
+            title="Mochi lo transforma en acciones claras"
+            text="Prioriza, resume, recuerda y te ayuda a entender qué necesita atención."
+          >
+            <ChatWindow label="Ejemplo: Mochi avisa por chat que vence una autorización de Mateo." composer={false} className="border-0 shadow-none">
+              <Bubble from="mochi" time="19:03" actions={["Ya la completé ✅", "Recordámelo mañana"]}>
+                <p>Para Mateo encontré algo que necesita atención:</p>
+                <TaskCard subject="Salida educativa" detail="Autorización pendiente" status="Vence mañana" tone="amber" />
               </Bubble>
             </ChatWindow>
+            <p className="flex items-center justify-center gap-3 px-3 py-2.5 text-sm font-bold text-ink">
+              <span className="inline-flex items-center gap-1.5">
+                <MessageCircle className="size-4 text-[#1a7a6f]" aria-hidden="true" /> WhatsApp
+              </span>
+              <span aria-hidden="true" className="text-ink-muted">o</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Send className="size-4 text-deep" aria-hidden="true" /> Telegram
+              </span>
+            </p>
           </Step>
         </ol>
 
-        <p className="mx-auto mt-8 max-w-xl text-center text-sm text-ink-muted">
-          Durante el piloto, las formas de hacerle llegar la información a Mochi pueden variar según cada escuela y cada familia.
+        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-ink-muted">
+          Mochi está siendo construido. Las primeras versiones van a probar distintas formas de conectarse con la
+          información, según lo que cada familia y cada colegio ya utilizan y autorizan.
         </p>
       </Container>
     </Section>

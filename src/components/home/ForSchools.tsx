@@ -1,4 +1,4 @@
-import { HeartHandshake, Megaphone, MessagesSquare, Repeat2, type LucideIcon } from "lucide-react";
+import { HeartHandshake, Layers, MessagesSquare, Sprout, type LucideIcon } from "lucide-react";
 import { Mascot } from "@/components/brand/Mascot";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
@@ -6,23 +6,23 @@ import { Section, SectionHeading } from "@/components/ui/SectionHeading";
 import { routes } from "@/lib/site";
 
 const items: Array<{ icon: LucideIcon; title: string; text: string }> = [
-  { icon: Megaphone, title: "La información llega mejor", text: "Cada comunicado se convierte en un aviso claro para cada familia." },
-  { icon: Repeat2, title: "Menos preguntas repetidas", text: "Las familias consultan a Mochi antes que al grupo o a la secretaría." },
-  { icon: MessagesSquare, title: "Mejor comunicación", text: "Sin cambiar las herramientas que la escuela ya usa." },
-  { icon: HeartHandshake, title: "Menos fricción", text: "Menos malentendidos, olvidos y horarios cruzados." },
+  { icon: Layers, title: "Convive con lo que ya existe", text: "Plataformas, calendarios y canales del colegio siguen siendo la fuente." },
+  { icon: MessagesSquare, title: "La información llega más clara", text: "Cada familia entiende qué le corresponde y qué acción requiere." },
+  { icon: Sprout, title: "Más autonomía en los chicos", text: "Un objetivo compartido: que aprendan a organizarse." },
+  { icon: HeartHandshake, title: "Una experiencia más simple", text: "Colegios y familias, del mismo lado." },
 ];
 
 export function ForSchools() {
   return (
-    <Section id="escuelas" labelledBy="escuelas-title" tone="bg">
+    <Section id="colegios" labelledBy="colegios-title" tone="bg">
       <Container>
         <div className="flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
           <SectionHeading
-            id="escuelas-title"
+            id="colegios-title"
             align="responsive"
-            eyebrow="Para escuelas"
-            title="Una mejor llegada a cada familia."
-            description="Estamos conversando con instituciones interesadas en explorar Mochi junto a sus comunidades."
+            eyebrow="Colegios"
+            title="Del mismo lado que los colegios."
+            description="Mochi está pensado para convivir con las herramientas que familias y colegios ya utilizan. A futuro, los colegios pueden convertirse en socios fundamentales para ofrecer una experiencia de información más simple a las familias."
           />
           <Mascot pose="lee" sizes="160px" className="w-28 shrink-0 lg:w-36" decorative />
         </div>
@@ -35,7 +35,8 @@ export function ForSchools() {
             </li>
           ))}
         </ul>
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-col items-center gap-3 text-center">
+          <p className="text-[15px] text-ink-muted">¿Representás a un colegio y querés conversar?</p>
           <ButtonLink href={routes.contactSchools} variant="secondary">
             Hablemos
           </ButtonLink>

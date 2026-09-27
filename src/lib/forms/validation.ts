@@ -1,60 +1,49 @@
-import type {
-  EarlyAccessPayload,
-  FamilyContactPayload,
-  FieldErrors,
-  SchoolContactPayload,
-} from "./types";
+/** Validación en el cliente, antes de enviar a Formspree. Devuelve { nombreDeCampo: mensaje }. */
+
+export type FieldErrors = Partial<Record<string, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-function required(value: string, message: string) {
-  return value.trim() ? undefined : message;
+function read(fd: FormData, name: string) {
+  const value = fd.get(name);
+  return typeof value === "string" ? value.trim() : "";
 }
 
-function email(value: string) {
-  if (!value.trim()) return "Necesitamos tu email para poder escribirte.";
-  if (!EMAIL_RE.test(value.trim())) return "Revisá el email: parece incompleto.";
+function compact(errors: FieldErrors): FieldErrors {
+  return Object.fromEntries(Object.entries(errors).filter(([, v]) => Boolean(v)));
+}
+
+function required(fd: FormData, name: string, message: string) {
+  return read(fd, name) ? undefined : message;
+}
+
+function email(fd: FormData) {
+  const value = read(fd, "email");
+  if (!value) return "Necesitamos tu email para poder responderte.";
+  if (!EMAIL_RE.test(value)) return "Revisá el email: parece incompleto.";
   return undefined;
 }
 
-function maxLength(value: string, max: number) {
-  return value.length > max ? `Máximo ${max} caracteres.` : undefined;
+function maxLength(fd: FormData, name: string, max: number) {
+  return read(fd, name).length > max ? `Máximo ${max} caracteres.` : undefined;
 }
 
-function compact<T>(errors: FieldErrors<T>): FieldErrors<T> {
-  return Object.fromEntries(
-    Object.entries(errors).filter(([, v]) => Boolean(v)),
-  ) as FieldErrors<T>;
-}
-
-export function validateEarlyAccess(data: EarlyAccessPayload) {
-  return compact<EarlyAccessPayload>({
-    name: required(data.name, "Contanos cómo te llamás."),
-    email: email(data.email),
-    childAges: data.childAges.length ? undefined : "Elegí al menos una edad.",
-    painPoints: data.painPoints.length
-      ? undefined
-      : "Elegí al menos una situación. Nos ayuda muchísimo.",
-    biggestStruggle: maxLength(data.biggestStruggle, 1500),
+export function validateFamily(fd: FormData) {
+  return compact({
+    nombre: required(fd, "nombre", "Contanos cómo te llamás."),
+    email: email(fd),
+    edad_hijo_rango: fd.getAll("edad_hijo_rango").length ? undefined : "Elegí al menos una edad.",
+    situaciones: fd.getAll("situaciones").length ? undefined : "Elegí al menos una situación. Nos ayuda muchísimo.",
+    detalle: maxLength(fd, "detalle", 1500),
   });
 }
 
-export function validateFamilyContact(data: FamilyContactPayload) {
-  return compact<FamilyContactPayload>({
-    name: required(data.name, "Contanos cómo te llamás."),
-    email: email(data.email),
-    message:
-      required(data.message, "Escribinos un mensaje breve.") ?? maxLength(data.message, 2000),
-  });
-}
-
-export function validateSchoolContact(data: SchoolContactPayload) {
-  return compact<SchoolContactPayload>({
-    institution: required(data.institution, "Indicá el nombre de la institución."),
-    name: required(data.name, "Contanos cómo te llamás."),
-    role: required(data.role, "Indicá tu rol en la institución."),
-    email: email(data.email),
-    message:
-      required(data.message, "Escribinos un mensaje breve.") ?? maxLength(data.message, 2000),
+export function validateSchool(fd: FormData) {
+  return compact({
+    nombre: required(fd, "nombre", "Contanos cómo te llamás."),
+    email: email(fd),
+    institucion: required(fd, "institucion", "Indicá el nombre de la institución."),
+    rol: required(fd, "rol", "Indicá tu rol en la institución."),
+    detalle: required(fd, "detalle", "Contanos brevemente qué te gustaría explorar.") ?? maxLength(fd, "detalle", 2000),
   });
 }

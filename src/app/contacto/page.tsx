@@ -6,19 +6,20 @@ import { Bubble, ChatWindow } from "@/components/chat/Chat";
 import { ContactForm, type Audience } from "@/components/forms/ContactForm";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
-import { anchors, PRIMARY_CTA } from "@/lib/site";
+import { anchors, SECONDARY_CTA } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Escribinos si sos una familia interesada en Mochi o si representás a una escuela que quiere explorarlo.",
+    "Escribinos si sos una familia interesada en probar Mochi o si representás a un colegio que quiere explorarlo con su comunidad.",
   alternates: { canonical: "/contacto" },
   openGraph: { url: "/contacto" },
 };
 
 export default async function ContactPage({ searchParams }: PageProps<"/contacto">) {
   const { tipo } = await searchParams;
-  const initialAudience: Audience = tipo === "escuela" ? "escuela" : "familia";
+  // "escuela" se mantiene por compatibilidad con links anteriores.
+  const initialAudience: Audience = tipo === "colegio" || tipo === "escuela" ? "colegio" : "familia";
 
   return (
     <section aria-labelledby="contacto-title" className="relative overflow-hidden bg-white">
@@ -33,22 +34,22 @@ export default async function ContactPage({ searchParams }: PageProps<"/contacto
             Hablemos.
           </h1>
           <p className="mt-4 text-lg text-ink-muted">
-            Si tenés dudas, ideas o querés contarnos cómo se organizan en casa, nos encantaría leerte.
+            Si querés probar Mochi, tenés dudas o querés contarnos cómo se organizan en casa, nos encantaría leerte.
           </p>
 
           <div className="mt-8 flex items-end gap-3">
             <Mascot pose="feliz" sizes="140px" className="w-24 shrink-0 sm:w-32" decorative />
             <ChatWindow label="Mochi te cuenta cómo sumarte al piloto." composer={false} className="flex-1" bodyClassName="py-3">
               <Bubble from="mochi">
-                <p>¿Querés probarme? 😊 La forma más rápida es sumarte al piloto para familias.</p>
+                <p>¿Querés probarme? 😊 Estamos armando las primeras pruebas con familias.</p>
               </Bubble>
             </ChatWindow>
           </div>
           <Link
-            href={anchors.earlyAccess}
+            href={anchors.howItWorks}
             className="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-xl px-1 font-bold text-deep hover:underline focus-visible:outline-3 focus-visible:outline-primary"
           >
-            {PRIMARY_CTA} <ArrowRight className="size-4" aria-hidden="true" />
+            {SECONDARY_CTA} <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>
 

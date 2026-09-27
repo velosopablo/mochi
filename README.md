@@ -3,14 +3,17 @@
 Landing y página de contacto de Mochi, pensada para validar el producto con padres y madres
 y captar familias para el piloto.
 
-**Idea central:** Mochi vive donde las familias ya conversan. Todo uso del producto se muestra
-como conversación de WhatsApp / Telegram, nunca como dashboard.
+**Idea central:** Mochi es un agente de IA de organización escolar. Comprende información de
+distintos medios digitales y la transforma en prioridades, recordatorios y acciones claras, por
+WhatsApp o Telegram. Todo uso del producto se muestra como conversación, nunca como dashboard.
+Los colegios se presentan como potenciales socios, nunca como el problema.
 
 ## Stack
 
 - Next.js 16 (App Router) + React 19 + TypeScript
 - Tailwind CSS v4 (tokens de diseño en `src/app/globals.css`)
 - `lucide-react` para íconos (una sola librería)
+- `@formspree/react` para los formularios (envío real a Formspree, sin backend propio)
 - Tipografías: Nunito (UI, 400–800) y Baloo 2 (H1/H2) vía `next/font`
 
 ## Ejecutar
@@ -32,7 +35,7 @@ src/
   app/
     layout.tsx            Navbar + Footer, fuentes, metadata SEO/OpenGraph
     page.tsx              Home (orden de secciones = narrativa)
-    contacto/page.tsx     /contacto (?tipo=escuela preselecciona escuelas)
+    contacto/page.tsx     /contacto (?tipo=colegio preselecciona colegios; Familia por defecto)
     not-found.tsx         404 con la mascota
     opengraph-image.jpg   Imagen para redes (logo oficial)
     icon.png, apple-icon.png, robots.ts, sitemap.ts
@@ -42,11 +45,11 @@ src/
     layout/               Navbar, Footer
     home/                 Secciones de la home (Hero, Problem, Solution, HowItWorks, Benefits,
                           Conversations, ForFamilies, ForSchools, Privacy, FinalCta)
-    forms/                EarlyAccessForm, ContactForm (+ familia / escuela), campos y hook
+    forms/                FamilyForm, SchoolForm, ContactForm (selector), campos y useMochiForm
     ui/                   Container, ButtonLink, SectionHeading
   lib/
     site.ts               Textos globales, CTA, anclas y links
-    forms/                Tipos, opciones, validación y envío
+    forms/                ID de Formspree, opciones, validación y resumen legible (message)
 ```
 
 ## Sistema visual
@@ -60,22 +63,26 @@ src/
   - `mochi-wordmark.webp` (navbar), `mochi-logo.webp` (footer), `mochi-avatar.webp` (chats)
   - Poses: `hola`, `feliz`, `ok`, `lee`, `abrazo` → componente `<Mascot pose="…" />`
 - Conversaciones: primitivas en `src/components/chat/Chat.tsx` (`ChatWindow`, `Bubble`,
-  `ChatList`, `FileCard`, `EventCard`, `StatusChip`, `QuickReplies`, `PhoneFrame`).
+  `ChatList`, `FileCard`, `EventCard`, `TaskCard`, `ChildBlock`, `StatusChip`, `QuickReplies`, `PhoneFrame`).
 
-## Formularios
+## Formularios (Formspree)
 
-Toda la salida pasa por `src/lib/forms/submit.ts`:
+Los formularios envían datos reales a **https://formspree.io/f/xzezkjaa** con `useForm` de
+`@formspree/react` (ID en `src/lib/forms/formspree.ts`, sobrescribible con
+`NEXT_PUBLIC_FORMSPREE_FORM_ID`). No hay backend propio ni envío simulado.
 
-- `submitEarlyAccessForm(data)` y `submitContactForm(data)` devuelven `{ ok: true }` o
-  `{ ok: false, message }`. La UI maneja los estados `idle → loading → success | error`.
-- **Sin backend** (`NEXT_PUBLIC_FORMS_ENDPOINT` vacío) los envíos se simulan: hay latencia,
-  pero **no se guarda nada**. Antes de publicar el piloto hay que conectar un destino real.
-- Con `NEXT_PUBLIC_FORMS_ENDPOINT` definido, se hace `POST` JSON con
-  `{ form, data, meta: { submittedAt, page, utm } }`.
-- Para Supabase, Firebase, HubSpot u otro CRM, reemplazá la función `transport` de ese archivo;
-  los componentes no cambian.
-- En modo simulado, un email que contenga `+error` fuerza el estado de error (útil para QA).
-- Incluye un campo trampa (`website`) contra bots.
+- `FamilyForm` (home `#probar` y `/contacto`): `tipo_contacto=Familia`, `nombre`, `email`,
+  `edad_hijo_rango` (múltiple), `situaciones` (múltiple), `situaciones_otro`, `canal_preferido`,
+  `detalle`, `interes_piloto`, `origen=Landing Mochi`.
+- `SchoolForm` (`/contacto?tipo=colegio`): `tipo_contacto=Colegio`, `nombre`, `email`, `institucion`,
+  `rol`, `cantidad_alumnos`, `interes_piloto`, `detalle`, `origen`.
+- Ambos agregan `message` (resumen legible para el email, además de los campos individuales),
+  `_subject` y el honeypot `_gotcha` que Formspree reconoce.
+- `useMochiForm` valida en el cliente (requeridos, email, al menos una edad/situación), lleva el
+  foco al primer error y recién entonces llama a `handleSubmit` de Formspree. Estados: enviando
+  (botón deshabilitado), error visible (`FormErrorAlert` + `ValidationError`) y éxito.
+- El formulario familiar **no** pide datos del menor (nombre, colegio, curso, DNI, domicilio, salud).
+- Para probar un envío real, el dominio `formspree.io` tiene que ser accesible desde el navegador.
 
 ## Contenido
 

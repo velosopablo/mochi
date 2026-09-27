@@ -4,12 +4,12 @@ import { Container } from "@/components/ui/Container";
 import { Section, SectionHeading } from "@/components/ui/SectionHeading";
 
 const benefits: Array<{ icon: LucideIcon; title: string; message: string; tint: string }> = [
-  { icon: BellRing, title: "Recordatorios", message: "⏰ Mañana a las 7:30 te recuerdo llevar la flauta.", tint: "bg-primary-50" },
-  { icon: NotebookPen, title: "Tareas", message: "📚 Tarea de Matemática para el jueves: páginas 24 y 25.", tint: "bg-mint-50" },
-  { icon: CalendarHeart, title: "Eventos", message: "🏫 Acto del Día de la Familia, sábado 10:00. ¿Lo agendo?", tint: "bg-yellow-50" },
-  { icon: ClipboardCheck, title: "Autorizaciones", message: "📝 Falta completar una autorización. Vence mañana.", tint: "bg-coral-50" },
-  { icon: Backpack, title: "Material escolar", message: "🎒 Para Plástica: témperas, un pincel y un repasador.", tint: "bg-mint-50" },
-  { icon: Clock3, title: "Cambios de horario", message: "🔔 La reunión cambió de horario: ahora es a las 18:30.", tint: "bg-primary-50" },
+  { icon: BellRing, title: "Recordatorios", message: "⏰ Mañana a las 7:30 te recuerdo que Juli lleva la flauta.", tint: "bg-primary-50" },
+  { icon: NotebookPen, title: "Tareas", message: "📚 Lucas tiene tarea de Matemática para el jueves: páginas 24 y 25.", tint: "bg-mint-50" },
+  { icon: CalendarHeart, title: "Eventos", message: "🏫 Acto del Día de la Familia en el curso de Mateo: sábado 10:00. ¿Te lo recuerdo?", tint: "bg-yellow-50" },
+  { icon: ClipboardCheck, title: "Autorizaciones", message: "✍️ Falta la autorización de la salida de Sofía. Vence mañana.", tint: "bg-coral-50" },
+  { icon: Backpack, title: "Material escolar", message: "🎒 Para Plástica, Clara necesita témperas, un pincel y un repasador.", tint: "bg-mint-50" },
+  { icon: Clock3, title: "Cambios de horario", message: "🔔 La reunión de padres del curso de Tomás pasó a las 18:30.", tint: "bg-primary-50" },
 ];
 
 export function Benefits() {
@@ -19,8 +19,8 @@ export function Benefits() {
         <SectionHeading
           id="beneficios-title"
           eyebrow="Qué hace Mochi"
-          title="Lo que importa, en el momento justo."
-          description="Mochi te escribe como te escribiría alguien muy organizado de la familia."
+          title="Prioridades, recordatorios y acciones, para cada hijo."
+          description="Mochi te escribe como alguien muy organizado de la familia: con nombre, fecha y lo que hay que hacer."
         />
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {benefits.map(({ icon: Icon, title, message, tint }) => (
